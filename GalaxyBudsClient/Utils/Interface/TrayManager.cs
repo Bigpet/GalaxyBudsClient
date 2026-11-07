@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -62,6 +62,7 @@ internal class TrayManager
         // triggering rebuild when noise control / ambient / anc state changes is handled in MessageComposer.cs
         // triggering rebuild when lock touchpad changes is handled in TouchpadPage.xaml.cs
         // triggering rebuild when eq state changes is handled in MessageComposer.cs
+        _ = RebuildAsync();
     }
 
     private async void OnTrayMenuCommand(object? type)
@@ -233,7 +234,7 @@ internal class TrayManager
             }
             _missedUpdate = false;
             var items = new List<NativeMenuItemBase>();
-            if (PlatformUtils.IsOSX || PlatformUtils.IsLinux)
+            if (PlatformUtils.IsDesktop)
             {
                 items.Add(new NativeMenuItem(Strings.WindowOpen)
                 {
@@ -295,6 +296,7 @@ internal class TrayManager
         {
             _instance ??= new TrayManager();
         }
+        _ = _instance.RebuildAsync();
     }
     #endregion
 }
