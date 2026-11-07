@@ -222,10 +222,6 @@ public partial class SpatialAudioPageViewModel : MainPageViewModelBase, IDisposa
     {
         base.OnNavigatedTo();
         RefreshBlackHoleStatus();
-        if (SpatialAudioService.Instance.IsSupported && !SpatialAudioService.Instance.IsActive)
-        {
-            IsTrackingEnabled = true;
-        }
     }
 
     public override void OnNavigatedFrom()
@@ -234,6 +230,10 @@ public partial class SpatialAudioPageViewModel : MainPageViewModelBase, IDisposa
         if (SpatialMediaPlayer.Instance.IsPlaying)
         {
             SpatialMediaPlayer.Instance.Stop();
+        }
+        if (IsTrackingEnabled)
+        {
+            IsTrackingEnabled = false;
         }
     }
 

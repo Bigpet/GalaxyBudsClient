@@ -328,7 +328,6 @@ namespace GalaxyBudsClient.Platform.Windows.Bluetooth
                 try
                 {
                     cancelToken.ThrowIfCancellationRequested();
-                    Task.Delay(50).Wait(cancelToken);
                 }
                 catch (OperationCanceledException)
                 {
@@ -339,6 +338,16 @@ namespace GalaxyBudsClient.Platform.Windows.Bluetooth
                 
                 if (!client.Connected)
                 {
+                    try
+                    {
+                        Task.Delay(50, cancelToken).Wait(cancelToken);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        peerStream?.Close();
+                        client.Close();
+                        return;
+                    }
                     continue;
                 }
 
@@ -357,6 +366,8 @@ namespace GalaxyBudsClient.Platform.Windows.Bluetooth
                     RfcommConnected?.Invoke(this, EventArgs.Empty);
                     continue;
                 }
+
+                bool hasWork = false;
 
                 int available;
                 try
@@ -378,6 +389,7 @@ namespace GalaxyBudsClient.Platform.Windows.Bluetooth
 
                 if (available > 0 && currentStream.CanRead)
                 {
+                    hasWork = true;
                     var buffer = new byte[available];
                     try
                     {
@@ -417,10 +429,9 @@ namespace GalaxyBudsClient.Platform.Windows.Bluetooth
                     }
                 }
 
-                lock (TransmitterQueue)
+                while (TransmitterQueue.TryDequeue(out var raw))
                 {
-                    if (TransmitterQueue.Count <= 0) continue;
-                    if (!TransmitterQueue.TryDequeue(out var raw)) continue;
+                    hasWork = true;
                     try
                     {
                         currentStream.Write(raw, 0, raw.Length);
@@ -438,6 +449,20 @@ namespace GalaxyBudsClient.Platform.Windows.Bluetooth
                         Log.Error("Windows.BluetoothService: BluetoothServiceLoop: IOException thrown while writing to socket: {ExMessage}. Cancelled", ex.Message);
                         BluetoothErrorAsync?.Invoke(this, new BluetoothException(BluetoothException.ErrorCodes.SendFailed, ex.Message));
                         currentStream.Close();
+                        client.Close();
+                        return;
+                    }
+                }
+
+                if (!hasWork)
+                {
+                    try
+                    {
+                        Task.Delay(20, cancelToken).Wait(cancelToken);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        peerStream?.Close();
                         client.Close();
                         return;
                     }
