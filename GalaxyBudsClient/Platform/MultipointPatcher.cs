@@ -103,7 +103,7 @@ public static class MultipointPatcher
     {
         try
         {
-            if (!Settings.Data.AutoEnableMultipoint)
+            if (!Settings.Data.AutoEnableMultipoint || Settings.Data.EnableSeamlessAutoSwitch)
                 return;
 
             /* Our own restore reconnects, and patching that would never terminate */

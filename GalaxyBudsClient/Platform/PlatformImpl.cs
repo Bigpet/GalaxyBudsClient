@@ -27,6 +27,7 @@ public static class PlatformImpl
     public static IHotkeyReceiver HotkeyReceiver { private set; get; }
     public static IMediaKeyRemote MediaKeyRemote { private set; get; }
     public static IOfficialAppDetector OfficialAppDetector { private set; get; }
+    public static IAutoSwitchService AutoSwitchService { private set; get; }
 
     static PlatformImpl()
     {
@@ -49,6 +50,7 @@ public static class PlatformImpl
         HotkeyReceiver = Creator.CreateHotkeyReceiver() ?? new DummyHotkeyReceiver();
         MediaKeyRemote = Creator.CreateMediaKeyRemote() ?? new DummyMediaKeyRemote();
         OfficialAppDetector = Creator.CreateOfficialAppDetector() ?? new DummyOfficialAppDetector();
+        AutoSwitchService = Creator.CreateAutoSwitchService() ?? new DummyAutoSwitchService();
     }
 
     public static void InjectExternalBackend(IPlatformImplCreator platformImplCreator)
@@ -59,6 +61,7 @@ public static class PlatformImpl
         HotkeyReceiver = Creator.CreateHotkeyReceiver() ?? new DummyHotkeyReceiver();
         MediaKeyRemote = Creator.CreateMediaKeyRemote() ?? new DummyMediaKeyRemote();
         OfficialAppDetector = Creator.CreateOfficialAppDetector() ?? new DummyOfficialAppDetector();
+        AutoSwitchService = Creator.CreateAutoSwitchService() ?? new DummyAutoSwitchService();
         BluetoothImpl.Reallocate();
     }
     

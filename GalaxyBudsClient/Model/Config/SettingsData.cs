@@ -60,6 +60,9 @@ public class SettingsData : ReactiveObject
     [ReadOnly(true)] public ObservableCollection<Device> Devices { set; get; } = [];
     [ReactiveUI.Fody.Helpers.Reactive] public string? LastDeviceMac { set; get; }
     [ReactiveUI.Fody.Helpers.Reactive] public bool AutoEnableMultipoint { set; get; }
+    [ReactiveUI.Fody.Helpers.Reactive] public bool EnableSeamlessAutoSwitch { set; get; }
+    [ReactiveUI.Fody.Helpers.Reactive] public bool AutoSwitchReleaseA2dpOnPhoneTakeover { set; get; }
+    [ReactiveUI.Fody.Helpers.Reactive] public float AutoSwitchAudioThreshold { set; get; } = 0.015f;
 
     
     /* Touch actions */

@@ -464,6 +464,12 @@ Measure level: Select a vertical span to measure the battery level difference be
 
     <!--Settings >>> Multipoint-->
     <sys:String x:Key="settings_multipoint_header">Multipoint</sys:String>
+    <sys:String x:Key="settings_autoswitch_enable">Seamless Auto-Switch (Samsung MDE V3)</sys:String>
+    <sys:String x:Key="settings_autoswitch_enable_desc">Automatically switch audio between PC and Phone based on active playback using Samsung MDE Multipoint V3 protocol.</sys:String>
+    <sys:String x:Key="settings_autoswitch_release_a2dp">Force release PC A2DP on Phone takeover</sys:String>
+    <sys:String x:Key="settings_autoswitch_release_a2dp_desc">Immediately disconnect PC Bluetooth audio transport when the phone starts playing, preventing silence streaming from blocking the phone.</sys:String>
+    <sys:String x:Key="settings_autoswitch_diagnostics">Auto-Switch diagnostics &amp; live logs</sys:String>
+    <sys:String x:Key="settings_autoswitch_diagnostics_desc">View real-time MDE state, audio peak level, and diagnostic event logs.</sys:String>
     <sys:String x:Key="settings_multipoint_auto">Unlock multipoint without a Samsung account</sys:String>
     <sys:String x:Key="settings_multipoint_auto_description">Your earbuds normally drop your phone as soon as a non-Samsung device connects, unless the Galaxy Wearable app is signed in. Enabling this writes the missing version marker to your earbuds every time they connect, which lets both devices stay connected. The earbuds keep the marker only until they power down, so putting them back in the case clears it.</sys:String>
     <sys:String x:Key="settings_multipoint_apply">Apply now</sys:String>

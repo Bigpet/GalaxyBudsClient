@@ -12,4 +12,5 @@ public interface IPlatformImplCreator
     IMediaKeyRemote? CreateMediaKeyRemote();
     INotificationListener? CreateNotificationListener();
     IOfficialAppDetector? CreateOfficialAppDetector();
+    IAutoSwitchService? CreateAutoSwitchService() => null;
 }

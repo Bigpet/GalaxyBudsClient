@@ -211,6 +211,27 @@
                 </ui:SettingsExpander.IconSource>
 
                 <controls:SettingsSwitchItem
+                    Content="{ext:Translate {x:Static i18N:Keys.SettingsAutoswitchEnable}}"
+                    Description="{ext:Translate {x:Static i18N:Keys.SettingsAutoswitchEnableDesc}}"
+                    Symbol="ArrowSyncCheckmark"
+                    IsVisible="{Binding IsAutoSwitchSupported}"
+                    IsChecked="{Binding EnableSeamlessAutoSwitch, Source={x:Static config:Settings.Data}}" />
+
+                <controls:SettingsSwitchItem
+                    Content="{ext:Translate {x:Static i18N:Keys.SettingsAutoswitchReleaseA2dp}}"
+                    Description="{ext:Translate {x:Static i18N:Keys.SettingsAutoswitchReleaseA2dpDesc}}"
+                    Symbol="DismissCircle"
+                    IsVisible="{Binding EnableSeamlessAutoSwitch, Source={x:Static config:Settings.Data}}"
+                    IsChecked="{Binding AutoSwitchReleaseA2dpOnPhoneTakeover, Source={x:Static config:Settings.Data}}" />
+
+                <controls:SettingsSymbolItem Content="{ext:Translate {x:Static i18N:Keys.SettingsAutoswitchDiagnostics}}"
+                                             Description="{ext:Translate {x:Static i18N:Keys.SettingsAutoswitchDiagnosticsDesc}}"
+                                             Symbol="HeartPulse"
+                                             IsVisible="{Binding IsAutoSwitchSupported}"
+                                             IsClickEnabled="True"
+                                             Click="OnAutoSwitchDiagnosticsClicked" />
+
+                <controls:SettingsSwitchItem
                     Content="{ext:Translate {x:Static i18N:Keys.SettingsMultipointAuto}}"
                     Description="{ext:Translate {x:Static i18N:Keys.SettingsMultipointAutoDescription}}"
                     Symbol="BluetoothConnected"

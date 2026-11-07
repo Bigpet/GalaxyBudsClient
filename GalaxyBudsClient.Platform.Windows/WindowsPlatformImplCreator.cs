@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
-using GalaxyBudsClient.Platform.Windows.Bluetooth;
 using GalaxyBudsClient.Platform.Interfaces;
+using GalaxyBudsClient.Platform.Windows.AutoSwitch;
+using GalaxyBudsClient.Platform.Windows.Bluetooth;
 using GalaxyBudsClient.Platform.Windows.Impl;
 
 namespace GalaxyBudsClient.Platform.Windows;
@@ -15,4 +16,5 @@ public class WindowsPlatformImplCreator : IPlatformImplCreator
     public IMediaKeyRemote CreateMediaKeyRemote() => new MediaKeyRemote();
     public INotificationListener? CreateNotificationListener() => null;
     public IOfficialAppDetector CreateOfficialAppDetector() => new OfficialAppDetector();
+    public virtual IAutoSwitchService? CreateAutoSwitchService() => new AutoSwitchService();
 }

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
     <Import Project="../GalaxyBudsClient/Platform.props" />
 
     <PropertyGroup>
@@ -7,11 +7,21 @@
         <Configurations>Debug;Release</Configurations>
         <Platforms>AnyCPU</Platforms>
         <LangVersion>latest</LangVersion>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         
         <!-- Code Analysis -->
         <AnalysisLevel>latest</AnalysisLevel>
         <EnableNETAnalyzers>true</EnableNETAnalyzers>
     </PropertyGroup>
+
+    <ItemGroup>
+        <None Update="BudsMsgFmtDynamic.dll">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="DllBudsMsgFmt.dll">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\GalaxyBudsClient.Platform\GalaxyBudsClient.Platform.csproj" />

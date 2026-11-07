@@ -52,4 +52,9 @@ public partial class SettingsPage : BasePage<SettingsPageViewModel>
             Description = success ? Strings.SettingsMultipointApplied : Strings.SettingsMultipointFailed
         }.ShowAsync();
     }
+
+    public async void OnAutoSwitchDiagnosticsClicked(object? sender, RoutedEventArgs e)
+    {
+        await new AutoSwitchDiagnosticsDialog().ShowAsync(true);
+    }
 }

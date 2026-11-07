@@ -11,4 +11,5 @@ public class DummyPlatformImplCreator : IPlatformImplCreator
     public IMediaKeyRemote CreateMediaKeyRemote() => new DummyMediaKeyRemote();
     public INotificationListener CreateNotificationListener() => new DummyNotificationListener();
     public IOfficialAppDetector CreateOfficialAppDetector() => new DummyOfficialAppDetector();
+    public IAutoSwitchService CreateAutoSwitchService() => new DummyAutoSwitchService();
 }

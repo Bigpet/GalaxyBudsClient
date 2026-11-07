@@ -106,6 +106,7 @@ public class App : Application
         Dispatcher.UIThread.UnhandledException += OnDispatcherUnhandledException;
         /* Must subscribe before the initial connection attempt to catch its Connected event */
         MultipointPatcher.Init();
+        SyncAutoSwitchSettings();
 
         if (BluetoothImpl.HasValidDevice)
         {
@@ -207,6 +208,13 @@ public class App : Application
     {
         _popupShown = false;
         _customEqReapplied = false;
+
+        if (Settings.Data.EnableSeamlessAutoSwitch &&
+            BluetoothImpl.Instance.Device.Current?.MacAddress is { } macStr &&
+            InTheHand.Net.BluetoothAddress.TryParse(macStr, out var addr))
+        {
+            _ = PlatformImpl.AutoSwitchService.StartAsync((ulong)addr.ToInt64(), BluetoothImpl.Instance.Device.Current?.Name);
+        }
     }
 
     private void OnBluetoothError(object? sender, BluetoothException e)
@@ -220,6 +228,7 @@ public class App : Application
         WindowIconRenderer.ResetIconToDefault();
         _popupShown = false;
         _customEqReapplied = false;
+        _ = PlatformImpl.AutoSwitchService.StopAsync();
     }
     
     private void OnExtendedStatusUpdate(object? sender, ExtendedStatusUpdateDecoder e)
@@ -348,6 +357,35 @@ public class App : Application
                     WindowIconRenderer.ResetIconToDefault();
                 break;
             }
+            case nameof(Settings.Data.EnableSeamlessAutoSwitch)
+                or nameof(Settings.Data.AutoSwitchReleaseA2dpOnPhoneTakeover)
+                or nameof(Settings.Data.AutoSwitchAudioThreshold):
+            {
+                SyncAutoSwitchSettings();
+                break;
+            }
+        }
+    }
+
+    private static void SyncAutoSwitchSettings()
+    {
+        var svc = PlatformImpl.AutoSwitchService;
+        svc.AutoSwitchEnabled = Settings.Data.EnableSeamlessAutoSwitch;
+        svc.ReleaseA2dpOnPhoneTakeover = Settings.Data.AutoSwitchReleaseA2dpOnPhoneTakeover;
+        svc.AudioPeakThreshold = Settings.Data.AutoSwitchAudioThreshold;
+
+        if (Settings.Data.EnableSeamlessAutoSwitch)
+        {
+            if (BluetoothImpl.Instance.IsConnected &&
+                BluetoothImpl.Instance.Device.Current?.MacAddress is { } macStr &&
+                InTheHand.Net.BluetoothAddress.TryParse(macStr, out var addr))
+            {
+                _ = svc.StartAsync((ulong)addr.ToInt64(), BluetoothImpl.Instance.Device.Current?.Name);
+            }
+        }
+        else
+        {
+            _ = svc.StopAsync();
         }
     }
 

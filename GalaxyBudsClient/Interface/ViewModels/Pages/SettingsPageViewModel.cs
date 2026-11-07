@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using Avalonia.Controls;
 using Avalonia.Threading;
 using FluentIcons.Common;
@@ -32,6 +32,7 @@ public partial class SettingsPageViewModel : MainPageViewModelBase
     {
         IsMultipointSupported = MultipointPatcher.IsSupportedByCurrentDevice;
         CanApplyMultipoint = IsMultipointSupported && BluetoothImpl.Instance.IsConnected;
+        IsAutoSwitchSupported = PlatformImpl.AutoSwitchService.IsSupported && IsMultipointSupported;
     });
 
     public bool IsAutoStartEnabled
@@ -47,6 +48,7 @@ public partial class SettingsPageViewModel : MainPageViewModelBase
     [Reactive] private object _canManageDevices = false;
     [Reactive] private bool _isMultipointSupported;
     [Reactive] private bool _canApplyMultipoint;
+    [Reactive] private bool _isAutoSwitchSupported;
     
     public string CurrentVersion => Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "Unknown";
     public override Control CreateView() => new SettingsPage { DataContext = this };
